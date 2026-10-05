@@ -48,16 +48,9 @@ Starter plan for continuous operation. If the service was created manually,
 confirm its plan and Auto-Deploy setting in the Render Dashboard; syncing
 `render.yaml` only updates a Blueprint-managed service.
 
-## 🌐 Deploy the pairing frontend on Vercel
+## Pairing website
 
-The French pairing page is a static site in `web/`. Import this repository into
-Vercel and set **Root Directory** to `web` (Framework Preset: **Other**; no build
-command is needed). `web/vercel.json` proxies `/api/*`, `/health`, and
-`/assets/*` to the Railway backend, so browser requests stay on the Vercel
-origin and do not require a permissive CORS policy on the backend.
-
-If the Railway service URL changes, update the rewrite destinations in
-`web/vercel.json`.
+The pairing website is served directly by the bot on Render and Railway.
 
 ## 🚂 Deploy on Railway
 
