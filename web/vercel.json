@@ -11,6 +11,14 @@
     {
       "source": "/assets/:path*",
       "destination": "https://dentsu-mini-bot-production.up.railway.app/assets/:path*"
+    },
+    {
+      "source": "/style.css",
+      "destination": "https://dentsu-mini-bot-production.up.railway.app/style.css"
+    },
+    {
+      "source": "/app.js",
+      "destination": "https://dentsu-mini-bot-production.up.railway.app/app.js"
     }
   ]
 }

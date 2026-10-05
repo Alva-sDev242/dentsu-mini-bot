@@ -1,419 +1,109 @@
 <!doctype html>
 <html lang="fr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#08110d">
-    <meta name="description" content="Associez votre compte WhatsApp à DENTSU MINI BOT avec un code de liaison.">
-    <title>Associer WhatsApp · DENTSU MINI BOT</title>
-    <style>
-      :root {
-        color-scheme: dark;
-        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        --bg: #08110d;
-        --surface: rgba(17, 29, 22, .88);
-        --surface-raised: #14231a;
-        --line: rgba(182, 224, 194, .13);
-        --text: #f1f8f2;
-        --muted: #a3b5a7;
-        --green: #29d977;
-        --green-dark: #13a85a;
-        --red: #ffaaa0;
-      }
-
-      * { box-sizing: border-box; }
-      body {
-        min-height: 100vh;
-        margin: 0;
-        color: var(--text);
-        background:
-          radial-gradient(ellipse at 8% 0%, rgba(31, 126, 69, .27), transparent 34rem),
-          radial-gradient(ellipse at 100% 20%, rgba(18, 91, 55, .16), transparent 32rem),
-          var(--bg);
-      }
-      button, input { font: inherit; }
-      .page { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
-      .topbar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 26px 0;
-      }
-      .brand { display: flex; align-items: center; gap: 12px; }
-      .brand-mark {
-        width: 46px;
-        height: 46px;
-        overflow: hidden;
-        border: 1px solid rgba(255,255,255,.13);
-        border-radius: 15px;
-        background: #1b6d3c;
-        box-shadow: 0 8px 28px rgba(19, 168, 90, .2);
-      }
-      .brand-mark img { display: block; width: 100%; height: 100%; object-fit: cover; }
-      .brand-name { font-size: 14px; font-weight: 800; letter-spacing: .02em; }
-      .brand-by { margin-top: 3px; color: var(--muted); font-size: 12px; }
-      .service {
-        display: inline-flex;
-        align-items: center;
-        gap: 9px;
-        padding: 9px 12px;
-        border: 1px solid var(--line);
-        border-radius: 999px;
-        color: var(--muted);
-        background: rgba(13, 23, 17, .72);
-        font-size: 12px;
-      }
-      .service-dot { width: 8px; height: 8px; border-radius: 50%; background: #e5b84b; }
-      .service.online .service-dot { background: var(--green); box-shadow: 0 0 12px rgba(41, 217, 119, .65); }
-      .service.offline .service-dot { background: #ff756b; }
-      main {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(330px, 440px);
-        align-items: center;
-        gap: clamp(34px, 7vw, 92px);
-        padding: 48px 0 78px;
-      }
-      .eyebrow {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        margin-bottom: 22px;
-        color: #8be7aa;
-        font-size: 12px;
-        font-weight: 800;
-        letter-spacing: .12em;
-        text-transform: uppercase;
-      }
-      .eyebrow::before { width: 22px; height: 1px; background: currentColor; content: ""; }
-      h1 {
-        max-width: 610px;
-        margin: 0;
-        font-size: clamp(42px, 6.6vw, 76px);
-        line-height: .99;
-        letter-spacing: -.065em;
-      }
-      h1 span { color: var(--green); }
-      .lead {
-        max-width: 510px;
-        margin: 22px 0 28px;
-        color: var(--muted);
-        font-size: 16px;
-        line-height: 1.7;
-      }
-      .trust-list { display: flex; flex-wrap: wrap; gap: 10px; }
-      .trust {
-        padding: 9px 12px;
-        border: 1px solid var(--line);
-        border-radius: 999px;
-        color: #c4d7c9;
-        background: rgba(15, 28, 20, .68);
-        font-size: 12px;
-      }
-      .card {
-        padding: clamp(22px, 4vw, 32px);
-        border: 1px solid rgba(184, 228, 197, .15);
-        border-radius: 26px;
-        background: var(--surface);
-        box-shadow: 0 28px 80px rgba(0, 0, 0, .34), inset 0 1px rgba(255,255,255,.035);
-        backdrop-filter: blur(16px);
-      }
-      .card h2 { margin: 0; font-size: 23px; letter-spacing: -.035em; }
-      .card-intro { margin: 8px 0 25px; color: var(--muted); font-size: 13px; line-height: 1.6; }
-      label { display: block; margin-bottom: 9px; color: #d6e5d9; font-size: 13px; font-weight: 700; }
-      .phone {
-        width: 100%;
-        min-height: 56px;
-        padding: 0 16px;
-        border: 1px solid rgba(182, 224, 194, .18);
-        border-radius: 15px;
-        outline: 0;
-        color: var(--text);
-        background: #0b1510;
-        font-size: 16px;
-        transition: border-color .18s, box-shadow .18s;
-      }
-      .phone::placeholder { color: #718477; }
-      .phone:focus { border-color: var(--green); box-shadow: 0 0 0 4px rgba(41, 217, 119, .1); }
-      .hint { margin: 9px 0 18px; color: #899d8e; font-size: 12px; line-height: 1.5; }
-      .primary, .copy {
-        min-height: 53px;
-        border: 0;
-        border-radius: 15px;
-        cursor: pointer;
-        font-weight: 800;
-        transition: transform .16s, opacity .16s, filter .16s;
-      }
-      .primary {
-        width: 100%;
-        color: #042110;
-        background: linear-gradient(135deg, #5ded91, #24cb69 60%, #10a957);
-        box-shadow: 0 12px 30px rgba(22, 184, 91, .18);
-      }
-      .primary:hover:not(:disabled), .copy:hover:not(:disabled) { transform: translateY(-1px); filter: brightness(1.06); }
-      button:disabled { cursor: wait; opacity: .58; }
-      .status {
-        display: none;
-        margin-top: 14px;
-        padding: 12px 14px;
-        border: 1px solid transparent;
-        border-radius: 13px;
-        font-size: 13px;
-        line-height: 1.5;
-      }
-      .status.show { display: block; }
-      .status.loading { border-color: rgba(41,217,119,.15); color: #b6ecc7; background: rgba(32,108,59,.18); }
-      .status.error { border-color: rgba(255,119,107,.18); color: var(--red); background: rgba(117,39,34,.2); }
-      .result {
-        display: none;
-        margin-top: 18px;
-        padding: 18px;
-        border: 1px solid rgba(41, 217, 119, .3);
-        border-radius: 18px;
-        text-align: center;
-        background: rgba(20, 83, 47, .22);
-      }
-      .result.show { display: block; }
-      .result-label { margin: 0; color: #c3ddca; font-size: 12px; }
-      .code {
-        margin: 9px 0 14px;
-        color: #69ec99;
-        font-size: clamp(34px, 10vw, 44px);
-        font-weight: 900;
-        letter-spacing: .16em;
-        font-variant-numeric: tabular-nums;
-      }
-      .copy {
-        min-height: 42px;
-        padding: 0 17px;
-        border: 1px solid rgba(110, 226, 145, .25);
-        color: #c7f5d4;
-        background: #11251a;
-      }
-      .timer { margin: 12px 0 0; color: var(--muted); font-size: 12px; }
-      .steps {
-        display: grid;
-        gap: 15px;
-        margin: 28px 0 0;
-        padding: 0;
-        list-style: none;
-      }
-      .step { display: grid; grid-template-columns: 28px 1fr; gap: 11px; color: var(--muted); font-size: 13px; line-height: 1.5; }
-      .step-num {
-        display: grid;
-        width: 26px;
-        height: 26px;
-        place-items: center;
-        border: 1px solid var(--line);
-        border-radius: 9px;
-        color: #95e6ae;
-        background: #102017;
-        font-size: 11px;
-        font-weight: 800;
-      }
-      .step strong { color: #e2eee5; }
-      footer {
-        display: flex;
-        justify-content: space-between;
-        gap: 16px;
-        padding: 18px 0 24px;
-        border-top: 1px solid rgba(182,224,194,.09);
-        color: #809386;
-        font-size: 12px;
-      }
-      @media (max-width: 780px) {
-        .page { width: min(100% - 32px, 540px); }
-        .topbar { padding: 18px 0; }
-        .service { padding: 8px 10px; font-size: 0; }
-        .service-dot { flex: none; }
-        main { grid-template-columns: 1fr; gap: 28px; padding: 46px 0 44px; }
-        .lead { margin: 16px 0 20px; font-size: 15px; }
-        .eyebrow { margin-bottom: 16px; }
-        footer { flex-direction: column; gap: 5px; }
-      }
-      @media (prefers-reduced-motion: reduce) {
-        *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="page">
-      <header class="topbar">
-        <div class="brand">
-          <div class="brand-mark">
-            <img src="/assets/dentsu-mini-bot-avatar.png" alt="">
-          </div>
-          <div>
-            <div class="brand-name">DENTSU MINI BOT</div>
-            <div class="brand-by">par NatsuTech's Dev 🇨🇬</div>
-          </div>
-        </div>
-        <div id="service-status" class="service" role="status" aria-live="polite">
-          <span class="service-dot" aria-hidden="true"></span>
-          <span id="service-label">Vérification du service</span>
-        </div>
-      </header>
-
-      <main>
-        <section class="intro">
-          <div class="eyebrow">Liaison WhatsApp</div>
-          <h1>Votre bot, <span>prêt à se connecter.</span></h1>
-          <p class="lead">
-            Saisissez votre numéro WhatsApp au format international. Vous recevrez un code à entrer dans l’application pour associer votre appareil.
-          </p>
-          <div class="trust-list" aria-label="Informations">
-            <span class="trust">Aucun mot de passe demandé</span>
-            <span class="trust">Code valable 60 secondes</span>
-          </div>
-        </section>
-
-        <section class="card" aria-labelledby="pair-title">
-          <h2 id="pair-title">Associer un numéro</h2>
-          <p class="card-intro">Utilisez le numéro complet avec l’indicatif du pays, sans oublier aucun chiffre.</p>
-
-          <form id="pair-form">
-            <label for="number">Numéro WhatsApp</label>
-            <input
-              class="phone"
-              id="number"
-              name="phoneNumber"
-              type="tel"
-              inputmode="tel"
-              autocomplete="tel"
-              placeholder="+242 06 123 45 67"
-              maxlength="20"
-              aria-describedby="number-hint"
-              required
-            >
-            <p class="hint" id="number-hint">Exemple : +242 06 123 45 67. Les espaces et le signe + seront retirés automatiquement.</p>
-            <button class="primary" id="submit" type="submit">Générer mon code</button>
-          </form>
-
-          <div id="status" class="status" role="status" aria-live="polite"></div>
-
-          <div id="result" class="result" aria-live="polite">
-            <p class="result-label">Votre code de liaison</p>
-            <div id="code" class="code" aria-label="Code de liaison">----</div>
-            <button id="copy" class="copy" type="button">Copier le code</button>
-            <p id="timer" class="timer">Le code expire dans 60 s.</p>
-          </div>
-
-          <ol class="steps" aria-label="Comment entrer le code">
-            <li class="step"><span class="step-num">1</span><span>Ouvrez <strong>WhatsApp</strong> sur votre téléphone.</span></li>
-            <li class="step"><span class="step-num">2</span><span>Allez dans <strong>Appareils connectés</strong>.</span></li>
-            <li class="step"><span class="step-num">3</span><span>Choisissez <strong>Connecter un appareil</strong>, puis l’option avec numéro de téléphone.</span></li>
-            <li class="step"><span class="step-num">4</span><span>Saisissez le code affiché ici avant son expiration.</span></li>
-          </ol>
-        </section>
-      </main>
-
-      <footer>
-        <span>DENTSU MINI BOT · WhatsApp pairing</span>
-        <span>Conçu par NatsuTech's Dev 🇨🇬</span>
-      </footer>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f9ff">
+  <meta name="description" content="Connect WhatsApp to dents-mini-bot using a secure pairing code or QR code.">
+  <title>dents-mini-bot — WhatsApp connection</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="ambient ambient-one" aria-hidden="true"></div><div class="ambient ambient-two" aria-hidden="true"></div>
+  <header class="topbar wrap">
+    <a class="brand" href="#home" aria-label="dents-mini-bot home">
+      <span class="brand-orbit"><img src="/assets/dentsu-mini-bot-avatar.png" alt="" class="brand-img"></span>
+      <span class="brand-copy"><strong>dents-mini-bot</strong><small>by NatsuTech's Dev 🇨🇬</small></span>
+    </a>
+    <div class="top-actions">
+      <div class="language" role="group" aria-label="Language">
+        <button class="lang-btn" data-language="en" aria-pressed="false">EN</button><button class="lang-btn" data-language="fr" aria-pressed="true">FR</button>
+      </div>
+      <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="side-menu"><span></span><span></span><span></span></button>
     </div>
+  </header>
+  <div class="menu-shade" id="menu-shade"></div>
+  <aside class="side-menu" id="side-menu" aria-hidden="true">
+    <div class="drawer-top"><span class="drawer-title" data-i18n="menu">Menu</span><button class="drawer-close" id="menu-close" aria-label="Close menu">×</button></div>
+    <button class="drawer-link" data-goto="home"><span>⌂</span><span data-i18n="home">Home</span><b>↗</b></button>
+    <button class="drawer-link" data-goto="connect"><span>◉</span><span data-i18n="connect">Connect WhatsApp</span><b>↗</b></button>
+    <button class="drawer-link" data-goto="guide"><span>↗</span><span data-i18n="how">How it works</span><b>↗</b></button>
+    <button class="drawer-link" data-goto="download"><span>↓</span><span data-i18n="download">Download bot</span><b>↗</b></button>
+    <button class="drawer-link" data-goto="support"><span>♡</span><span data-i18n="support">Support & community</span><b>↗</b></button>
+    <div class="drawer-rule"></div>
+    <a class="drawer-social" href="https://whatsapp.com/channel/0029VbC1s7fFnSz1YhZYc01h" target="_blank" rel="noreferrer"><img src="https://cdn.simpleicons.org/whatsapp/25D366" alt="WhatsApp"><span>WhatsApp Channel</span><b>↗</b></a>
+    <a class="drawer-social" href="https://t.me/DPLOIEMENT_DUN_BOT2" target="_blank" rel="noreferrer"><img src="https://cdn.simpleicons.org/telegram/229ED9" alt="Telegram"><span>Telegram Channel</span><b>↗</b></a>
+    <a class="drawer-contact" href="https://wa.me/242050471017" target="_blank" rel="noreferrer" data-i18n="contact">CONTACT DEV</a>
+    <p class="drawer-signature">NatsuTech's Dev 🇨🇬</p>
+  </aside>
 
-    <script>
-      const form = document.querySelector("#pair-form");
-      const numberInput = document.querySelector("#number");
-      const submitButton = document.querySelector("#submit");
-      const statusBox = document.querySelector("#status");
-      const resultBox = document.querySelector("#result");
-      const codeBox = document.querySelector("#code");
-      const copyButton = document.querySelector("#copy");
-      const timerLabel = document.querySelector("#timer");
-      const serviceStatus = document.querySelector("#service-status");
-      const serviceLabel = document.querySelector("#service-label");
-      let countdown;
+  <main class="wrap main-wrap">
+    <section class="view active" data-view="home">
+      <div class="home-grid">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="live-dot"></span><span data-i18n="eyebrow">WhatsApp pairing, made simple</span></div>
+          <h1 data-i18n-html="heroTitle">Your bot.<br><em>One secure connection.</em></h1>
+          <p class="hero-lead" data-i18n="heroLead">Connect your WhatsApp in seconds. Choose the method that feels right: a one-time pairing code or a QR scan.</p>
+          <div class="hero-actions"><button class="button button-primary" data-goto="connect"><span data-i18n="getStarted">Get started</span><b>↗</b></button><button class="button button-quiet" data-goto="guide"><span data-i18n="howWorks">See how it works</span><b>→</b></button></div>
+          <div class="trust-row"><span><i>✓</i><span data-i18n="trustOne">No WhatsApp password</span></span><span><i>✓</i><span data-i18n="trustTwo">Your session stays yours</span></span></div>
+        </div>
+        <div class="hero-visual" aria-label="dents-mini-bot connection">
+          <div class="visual-glow"></div><div class="visual-card">
+            <div class="visual-top"><span class="tiny-label" data-i18n="secureConnection">SECURE CONNECTION</span><span class="online-chip"><i></i><span data-i18n="ready">READY</span></span></div>
+            <div class="hero-logo"><div class="logo-ring"></div><img src="/assets/dentsu-mini-bot-avatar.png" alt="dents-mini-bot"></div>
+            <div class="visual-name">dents-mini-bot</div><div class="visual-caption" data-i18n="connectInSeconds">Connect in a few simple steps</div>
+            <div class="connection-line"><span class="mini-whatsapp"><img src="https://cdn.simpleicons.org/whatsapp/25D366" alt="WhatsApp"></span><span class="line-dashes"></span><span class="mini-bot">D</span></div>
+            <div class="visual-foot"><span class="shield">✓</span><span data-i18n="privateByDesign">Private by design · No password shared</span></div>
+          </div>
+          <div class="float-badge badge-code"><span>⌘</span><b>PAIR CODE</b><i>•••• ••••</i></div><div class="float-badge badge-qr"><span>▦</span><b>QR SCAN</b><i>Ready to link</i></div>
+        </div>
+      </div>
+      <div class="home-shortcuts"><button class="shortcut" data-goto="connect"><span class="shortcut-icon icon-blue">⌘</span><span><b data-i18n="connectWhatsApp">Connect WhatsApp</b><small data-i18n="chooseMethod">Choose code or QR</small></span><strong>→</strong></button><button class="shortcut" data-goto="download"><span class="shortcut-icon icon-purple">↓</span><span><b data-i18n="downloadBot">Download the bot</b><small data-i18n="fullProjectZip">Get the project ZIP</small></span><strong>→</strong></button><button class="shortcut" data-goto="guide"><span class="shortcut-icon icon-sky">✦</span><span><b data-i18n="deployRailway">Deploy on Railway</b><small data-i18n="railwayQuick">Setup guide, step by step</small></span><strong>→</strong></button></div>
+      <div class="home-bottom"><span><i class="tiny-check">✓</i><span data-i18n="builtFor">Built for a smoother WhatsApp setup</span></span><a href="https://github.com/kinggggg444" target="_blank" rel="noreferrer"><span data-i18n="visitGitHub">Visit GitHub & follow</span> ↗</a></div>
+    </section>
 
-      function showStatus(message, type) {
-        statusBox.textContent = message;
-        statusBox.className = `status show ${type}`;
-      }
+    <section class="view" data-view="connect">
+      <div class="page-heading"><button class="back-link" data-goto="home">← <span data-i18n="backHome">Home</span></button><div class="eyebrow"><span class="live-dot"></span><span data-i18n="stepOne">STEP 01 · CHOOSE A METHOD</span></div><h1 data-i18n="chooseTitle">How would you like to connect?</h1><p data-i18n="chooseLead">Both methods link your WhatsApp to the bot. Pick one to continue.</p></div>
+      <div class="method-grid">
+        <article class="method-card"><div class="method-icon code-icon">⌘</div><span class="method-tag" data-i18n="fastChoice">FAST & SIMPLE</span><h2 data-i18n="pairTitle">Pair with a code</h2><p data-i18n="pairDesc">Enter your number and type the 8-character code into WhatsApp Linked Devices.</p><button class="button button-primary full" data-goto="code"><span data-i18n="usePairCode">Use pairing code</span><b>→</b></button></article>
+        <article class="method-card"><div class="method-icon qr-icon">▦</div><span class="method-tag" data-i18n="scanChoice">SCAN & CONNECT</span><h2 data-i18n="qrTitle">Scan a QR code</h2><p data-i18n="qrDesc">Open WhatsApp on your phone, scan the live QR code, and your session will connect.</p><button class="button button-outline full" data-goto="qr"><span data-i18n="useQr">Use QR code</span><b>→</b></button></article>
+      </div>
+      <div class="privacy-note"><span class="privacy-icon">⌑</span><span><b data-i18n="privacyTitle">Your account stays in your control.</b><small data-i18n="privacyText">Never share the pairing code or QR image with anyone else.</small></span></div>
+    </section>
 
-      async function checkService() {
-        try {
-          const response = await fetch("/health", { cache: "no-store" });
-          if (!response.ok) throw new Error("Service unavailable");
-          const data = await response.json();
-          if (!data.ok) throw new Error("Service unavailable");
-          serviceStatus.className = "service online";
-          serviceLabel.textContent = "Service disponible";
-        } catch {
-          serviceStatus.className = "service offline";
-          serviceLabel.textContent = "Service indisponible";
-        }
-      }
+    <section class="view" data-view="code">
+      <div class="page-heading"><button class="back-link" data-goto="connect">← <span data-i18n="backMethods">Connection methods</span></button><div class="eyebrow"><span class="live-dot"></span><span data-i18n="pairMethodLabel">PAIRING CODE</span></div><h1 data-i18n="pairPageTitle">Connect with a one-time code.</h1><p data-i18n="pairPageLead">Enter the WhatsApp number you want to link. Use the full international format.</p></div>
+      <div class="flow-grid"><section class="form-card"><form id="pair-form"><label for="phone" data-i18n="phoneLabel">WhatsApp phone number</label><div class="phone-field"><span>＋</span><input id="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="242 06 123 45 67" maxlength="20" required></div><small class="field-help" data-i18n="phoneHint">Country code included · no spaces needed</small><button class="button button-primary full" id="pair-submit" type="submit"><span data-i18n="generateCode">Generate pairing code</span><b>→</b></button><p class="form-status" id="pair-status" role="status" aria-live="polite"></p></form><div class="pair-result" id="pair-result" hidden><span class="result-label" data-i18n="yourCode">YOUR PAIRING CODE</span><strong class="pair-code" id="pair-code">--------</strong><button class="copy-button" id="copy-code" type="button" data-i18n="copyCode">Copy code</button><p class="code-note" data-i18n="codeNote">On WhatsApp, open Linked devices → Link a device → Link with phone number.</p></div></section>
+      <aside class="side-note"><div class="note-icon">✦</div><h3 data-i18n="beforeTitle">Before you start</h3><ol><li data-i18n="codeStep1">Open WhatsApp on your phone.</li><li data-i18n="codeStep2">Go to Linked devices.</li><li data-i18n="codeStep3">Tap Link a device, then choose phone number.</li><li data-i18n="codeStep4">Enter the code shown on this page.</li></ol><div class="safe-note"><span>✓</span><span data-i18n="oneTimeNotice">The code is temporary. Do not send it to anyone.</span></div></aside></div>
+    </section>
 
-      numberInput.addEventListener("input", () => {
-        numberInput.value = numberInput.value.replace(/[^\d+]/g, "").replace(/(?!^)\+/g, "");
-      });
+    <section class="view" data-view="qr">
+      <div class="page-heading"><button class="back-link" data-goto="connect">← <span data-i18n="backMethods">Connection methods</span></button><div class="eyebrow"><span class="live-dot"></span><span data-i18n="qrMethodLabel">QR SCAN</span></div><h1 data-i18n="qrPageTitle">Scan to connect.</h1><p data-i18n="qrPageLead">Create a private QR code, then scan it from WhatsApp on your phone.</p></div>
+      <div class="qr-layout"><div class="qr-card"><div class="qr-frame" id="qr-frame"><div class="qr-placeholder" id="qr-placeholder"><span>▦</span><b data-i18n="qrPlaceholder">Your QR code will appear here</b><small data-i18n="qrPlaceholderHint">It is generated securely for this session</small></div><img id="qr-image" alt="WhatsApp connection QR code" hidden></div><p class="qr-state" id="qr-state" role="status" aria-live="polite" data-i18n="qrNotStarted">Ready when you are.</p><button class="button button-primary full" id="start-qr" type="button"><span data-i18n="generateQr">Generate secure QR code</span><b>→</b></button></div><div class="qr-instructions"><h3 data-i18n="scanWithPhone">Scan with your phone</h3><ol><li data-i18n="qrStep1">Open WhatsApp and tap the menu.</li><li data-i18n="qrStep2">Select Linked devices.</li><li data-i18n="qrStep3">Tap Link a device and scan this QR.</li></ol><div class="safe-note"><span>✓</span><span data-i18n="qrPrivate">This QR is private. Only scan it yourself.</span></div></div></div>
+    </section>
 
-      form.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        clearInterval(countdown);
-        resultBox.classList.remove("show");
-        copyButton.disabled = false;
+    <section class="view" data-view="download">
+      <div class="page-heading"><button class="back-link" data-goto="home">← <span data-i18n="backHome">Home</span></button><div class="eyebrow"><span class="live-dot"></span><span data-i18n="projectFiles">PROJECT FILES</span></div><h1 data-i18n="downloadTitle">Take the bot with you.</h1><p data-i18n="downloadLead">Download the current project source as a ZIP, or open the repository to browse the files.</p></div>
+      <div class="download-card"><div class="download-mark">↓</div><div class="download-copy"><h2>dents-mini-bot</h2><p data-i18n="zipDescription">Complete project archive · ZIP · from the main branch</p></div><a class="button button-primary" href="https://github.com/Alva-sDev242/dentsu-mini-bot/archive/refs/heads/main.zip"><span data-i18n="downloadZip">Download project ZIP</span><b>↓</b></a></div>
+      <div class="download-links"><a href="https://github.com/Alva-sDev242/dentsu-mini-bot" target="_blank" rel="noreferrer"><span class="link-icon">⌘</span><span><b data-i18n="browseRepo">Browse the repository</b><small>github.com/Alva-sDev242/dentsu-mini-bot</small></span><strong>↗</strong></a><a href="https://github.com/kinggggg444" target="_blank" rel="noreferrer"><span class="link-icon">☆</span><span><b data-i18n="followDev">Visit GitHub & follow</b><small>github.com/kinggggg444</small></span><strong>↗</strong></a></div>
+    </section>
 
-        const phoneNumber = numberInput.value.replace(/\D/g, "").replace(/^00/, "");
-        if (phoneNumber.length < 8 || phoneNumber.length > 15) {
-          showStatus("Entrez un numéro international valide, avec son indicatif pays.", "error");
-          numberInput.focus();
-          return;
-        }
+    <section class="view" data-view="guide">
+      <div class="page-heading"><button class="back-link" data-goto="home">← <span data-i18n="backHome">Home</span></button><div class="eyebrow"><span class="live-dot"></span><span data-i18n="deployment">DEPLOYMENT</span></div><h1 data-i18n="railwayTitle">Deploy on Railway.</h1><p data-i18n="railwayLead">The repository includes a Railway configuration. Link GitHub, add the required secret, then deploy.</p></div>
+      <div class="guide-grid"><div class="guide-card"><div class="guide-top"><span class="railway-logo">R</span><span class="guide-ready" data-i18n="readyToDeploy">READY TO DEPLOY</span></div><h2 data-i18n="launchProject">Launch your project</h2><p data-i18n="railwayCardText">Create a Railway project from the GitHub repository and set the Telegram bot token in service variables.</p><a class="button button-primary full" href="https://railway.com/new" target="_blank" rel="noreferrer"><span data-i18n="openRailway">Open Railway deploy</span><b>↗</b></a><a class="repo-inline" href="https://github.com/Alva-sDev242/dentsu-mini-bot" target="_blank" rel="noreferrer" data-i18n="openRepoFirst">Open the GitHub repository ↗</a></div><div class="guide-steps"><h3 data-i18n="quickSteps">Quick setup</h3><div class="guide-step"><b>01</b><span><strong data-i18n="railStepOne">Connect the repository</strong><small data-i18n="railStepOneText">Choose Alva-sDev242/dentsu-mini-bot in Railway.</small></span></div><div class="guide-step"><b>02</b><span><strong data-i18n="railStepTwo">Add the required secret</strong><small data-i18n="railStepTwoText">Set TELEGRAM_BOT_TOKEN in the service variables.</small></span></div><div class="guide-step"><b>03</b><span><strong data-i18n="railStepThree">Keep sessions persistent</strong><small data-i18n="railStepThreeText">Attach a Railway Volume at /app/auth_info.</small></span></div><div class="guide-step"><b>04</b><span><strong data-i18n="railStepFour">Deploy and pair</strong><small data-i18n="railStepFourText">Wait for the /health check, then choose code or QR.</small></span></div></div></div>
+    </section>
 
-        submitButton.disabled = true;
-        submitButton.textContent = "Génération du code…";
-        showStatus("Connexion à WhatsApp. Cela peut prendre quelques secondes.", "loading");
-
-        try {
-          const response = await fetch("/api/pair", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ phoneNumber }),
-          });
-          let data;
-          try {
-            data = await response.json();
-          } catch {
-            throw new Error("Réponse invalide du serveur. Réessayez dans un instant.");
-          }
-          if (!response.ok) throw new Error(data.error || "Impossible de générer le code.");
-
-          statusBox.className = "status";
-          codeBox.textContent = data.code;
-          resultBox.classList.add("show");
-          let remaining = Number(data.expiresIn || 60);
-          timerLabel.textContent = `Le code expire dans ${remaining} s.`;
-          countdown = setInterval(() => {
-            remaining -= 1;
-            if (remaining > 0) {
-              timerLabel.textContent = `Le code expire dans ${remaining} s.`;
-              return;
-            }
-            clearInterval(countdown);
-            timerLabel.textContent = "Code expiré. Générez-en un nouveau.";
-            submitButton.disabled = false;
-            submitButton.textContent = "Générer un nouveau code";
-            copyButton.disabled = true;
-          }, 1000);
-        } catch (error) {
-          showStatus(error.message, "error");
-          submitButton.disabled = false;
-          submitButton.textContent = "Réessayer";
-        }
-      });
-
-      copyButton.addEventListener("click", async () => {
-        try {
-          await navigator.clipboard.writeText(codeBox.textContent);
-          copyButton.textContent = "Code copié ✓";
-          setTimeout(() => { copyButton.textContent = "Copier le code"; }, 1800);
-        } catch {
-          showStatus("La copie automatique n’est pas disponible. Sélectionnez le code pour le copier.", "error");
-        }
-      });
-
-      checkService();
-    </script>
-  </body>
+    <section class="view" data-view="support">
+      <div class="page-heading"><button class="back-link" data-goto="home">← <span data-i18n="backHome">Home</span></button><div class="eyebrow"><span class="live-dot"></span><span data-i18n="community">SUPPORT & COMMUNITY</span></div><h1 data-i18n="supportTitle">Need a hand?</h1><p data-i18n="supportLead">Follow the official communities for deployment help, updates and guidance.</p></div>
+      <div class="social-grid"><a class="social-card" href="https://whatsapp.com/channel/0029VbC1s7fFnSz1YhZYc01h" target="_blank" rel="noreferrer"><span class="social-logo whatsapp-logo"><img src="https://cdn.simpleicons.org/whatsapp/25D366" alt="WhatsApp"></span><span><b data-i18n="waChannel">WhatsApp channel</b><small data-i18n="updates">News and updates</small></span><strong>↗</strong></a><a class="social-card" href="https://t.me/DPLOIEMENT_DUN_BOT2" target="_blank" rel="noreferrer"><span class="social-logo telegram-logo"><img src="https://cdn.simpleicons.org/telegram/229ED9" alt="Telegram"></span><span><b data-i18n="tgChannel">Telegram channel</b><small>@DPLOIEMENT_DUN_BOT2</small></span><strong>↗</strong></a><a class="social-card" href="https://chat.whatsapp.com/FwJDxAdCgeCGWqJiTv68eF" target="_blank" rel="noreferrer"><span class="social-logo group-logo"><img src="https://cdn.simpleicons.org/whatsapp/25D366" alt="WhatsApp"></span><span><b data-i18n="waGroup">Official WhatsApp group</b><small data-i18n="askCommunity">Ask the community</small></span><strong>↗</strong></a><a class="social-card" href="https://github.com/kinggggg444" target="_blank" rel="noreferrer"><span class="social-logo github-logo">⌘</span><span><b data-i18n="githubDev">Developer on GitHub</b><small>github.com/kinggggg444</small></span><strong>↗</strong></a></div>
+      <div class="contact-strip"><div><span class="contact-mini">✉</span><span><b data-i18n="directHelp">Need direct help?</b><small data-i18n="messageDev">Message the developer on WhatsApp.</small></span></div><a class="button button-primary" href="https://wa.me/242050471017" target="_blank" rel="noreferrer"><span data-i18n="contact">CONTACT DEV</span><b>↗</b></a></div>
+      <div class="signature">Made with care by <strong>NatsuTech's Dev 🇨🇬</strong></div>
+    </section>
+  </main>
+  <footer class="site-footer wrap"><span>© 2026 · dents-mini-bot</span><button data-goto="support" data-i18n="support">Support & community</button><span data-i18n="footerNote">WhatsApp connection · Your session, your choice</span></footer>
+</body>
 </html>
